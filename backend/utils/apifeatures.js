@@ -13,8 +13,30 @@ class ApiFeatures{
 
               },
         }:{}
-        console.log(keyword);
+        // console.log(keyword);
         this.query = this.query.find({...keyword}); //sent keyword
+        return this;
+    }
+    filter(){ 
+        //category filter
+        const queryCopy = {...this.queryStr} //copy of queryStr using spread operator bcz we dont want ref of querystr.
+        // console.log(queryCopy); //before remove { keyword: 'product', category: 'laptop' }
+
+        //removing some fields fo category
+        const removeFields=["keyword","page","limit"]; 
+        
+        removeFields.forEach(key=>delete queryCopy[key]) //it will delete keyword,page,limit.
+        // console.log(queryCopy); //after remove { category: 'laptop' }
+
+        // Filter for price and rating
+        console.log(queryCopy);
+
+        let queryStr = JSON.stringify(queryCopy); 
+        queryStr=queryStr.replace(/\b(gt|gte|lt|lte)\b/g,key => `$${key}`);
+        
+        this.query =this.query.find(JSON.parse(queryStr)); //finds only category
+
+        console.log(queryStr);
         return this;
     }
 };
