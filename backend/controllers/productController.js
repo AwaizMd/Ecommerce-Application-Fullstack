@@ -1,6 +1,8 @@
 const Product = require("../models/productModel");
 const ErrorHander = require("../utils/errorhandler");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");  //using this error handers does not let server break and it only shows the error and works as try catch block.
+const ApiFeatures = require("../utils/apifeatures");
+
 
 //creating product -- only Admin
 exports.createProduct = catchAsyncErrors(async (req, res, next) => {
@@ -14,7 +16,11 @@ exports.createProduct = catchAsyncErrors(async (req, res, next) => {
 
 //Get All products
 exports.getAllProducts = catchAsyncErrors(async (req, res) => {
-  const products = await Product.find();
+
+  const apiFeature=new ApiFeatures(Product.find(),req.query).search();
+
+  // const products = await Product.find();
+  const products = await apiFeature.query;
   
   res.status(200).json({
     success: true,
