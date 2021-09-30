@@ -39,6 +39,19 @@ class ApiFeatures{
         console.log(queryStr);
         return this;
     }
+    pagination(resultPerPage){
+        const currentPage = Number(this.queryStr.page) || 1;
+
+        const skip = resultPerPage * (currentPage-1);
+        // suppose we want to show 10 per page
+        // total products =50
+        // 1st page->10products (skip-->10*(1-1)=0 product skip).
+        //2nd page->10products to show and 1st 10 products(skip-->10*(2-1)=10).
+
+        this.query = this.query.limit(resultPerPage).skip(skip); // limiting in resuktperpage.
+
+        return this;
+    }
 };
 
 module.exports=ApiFeatures;
