@@ -10,7 +10,6 @@ class ApiFeatures{
               name:{
                   $regex:this.queryStr.keyword,
                   $options:"i", //case insensitive (if we search ABC it will find abc too.)
-
               },
         }:{}
         // console.log(keyword);
@@ -22,7 +21,7 @@ class ApiFeatures{
         const queryCopy = {...this.queryStr} //copy of queryStr using spread operator bcz we dont want ref of querystr.
         // console.log(queryCopy); //before remove { keyword: 'product', category: 'laptop' }
 
-        //removing some fields fo category
+        //removing some fields of category
         const removeFields=["keyword","page","limit"]; 
         
         removeFields.forEach(key=>delete queryCopy[key]) //it will delete keyword,page,limit.
